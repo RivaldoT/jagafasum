@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\ReportController;
+use App\Models\City;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/categories', CategoryController::class);
+Route::resource('/cities', CityController::class);
+Route::resource('/fasilitas', FasilitasController::class);
+Route::resource('/report', ReportController::class);
