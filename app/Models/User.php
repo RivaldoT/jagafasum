@@ -43,4 +43,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+    public function dinas()
+    {
+        return $this->belongsTo(Dinas::class, 'dinas_id');
+    }
 }

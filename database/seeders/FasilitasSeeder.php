@@ -15,6 +15,7 @@ class FasilitasSeeder extends Seeder
         DB::table('fasilitas')->insert([
             [
                 'name' => 'Taman Kota',
+                'dinas_id' => 1,
                 'description' => 'Area hijau untuk umum',
                 'manager' => 'Dinas Pertamanan',
                 'fund_source' => 'APBD',
@@ -26,6 +27,7 @@ class FasilitasSeeder extends Seeder
             ],
             [
                 'name' => 'Gedung Olahraga',
+                'dinas_id' => 2,
                 'description' => 'Fasilitas olahraga indoor',
                 'manager' => 'Dinas Pemuda dan Olahraga',
                 'fund_source' => 'APBN',
@@ -37,6 +39,7 @@ class FasilitasSeeder extends Seeder
             ],
             [
                 'name' => 'Perpustakaan Umum',
+                'dinas_id' => 3,
                 'description' => 'Perpustakaan dengan koleksi buku lengkap',
                 'manager' => 'Dinas Perpustakaan',
                 'fund_source' => 'Swasta',
@@ -48,6 +51,7 @@ class FasilitasSeeder extends Seeder
             ],
             [
                 'name' => 'Puskesmas',
+                'dinas_id' => 2,
                 'description' => 'Pusat layanan kesehatan masyarakat',
                 'manager' => 'Dinas Kesehatan',
                 'fund_source' => 'APBD',
@@ -59,6 +63,7 @@ class FasilitasSeeder extends Seeder
             ],
             [
                 'name' => 'Balai Desa',
+                'dinas_id' => 1,
                 'description' => 'Gedung pertemuan warga desa',
                 'manager' => 'Kepala Desa',
                 'fund_source' => 'Swasta',

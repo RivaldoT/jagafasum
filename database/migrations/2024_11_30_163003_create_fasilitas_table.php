@@ -20,6 +20,7 @@ return new class extends Migration
             $table->point('location');
             $table->string('image');
             $table->enum('status', ['Baik', 'Rusak']);
+            $table->foreignId('dinas_id')->constrained('dinas')->onDelete('restrict');
             $table->timestamps();
         });
     }

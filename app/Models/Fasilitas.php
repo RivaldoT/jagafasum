@@ -31,4 +31,8 @@ class Fasilitas extends Model
         return $this->belongsToMany(Category::class, 'fasilitas_has_category', 'fasilitas_id', 'category_id')
             ->withPivot('fasilitas_id', 'category_id'); // Pivot keys
     }
+    public function dinas()
+    {
+        return $this->belongsTo(Dinas::class, 'dinas_id');
+    }
 }
