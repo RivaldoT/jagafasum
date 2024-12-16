@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('city_id')->constrained('cities')->onDelete('restrict');
-            $table->string('address');
+            $table->text('address');
         });
     }
 

@@ -28,7 +28,6 @@ Route::resource('/dinas', DinasController::class)->parameters([
     'dinas' => 'dinas'
 ]);
 
-
 Route::resource('/categories', CategoryController::class);
 Route::resource('/cities', CityController::class);
 Route::resource('/fasilitas', FasilitasController::class);

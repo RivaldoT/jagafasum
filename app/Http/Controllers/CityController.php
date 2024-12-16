@@ -12,7 +12,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        $cities = City::all();
+        $cities = City::get();
         return view('cities.index', compact('cities'));
     }
 

@@ -33,7 +33,7 @@ class DinasController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'required|string',
             'city_id' => 'required|exists:cities,id',
         ]);
 
@@ -66,7 +66,7 @@ class DinasController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'required|string',
             'city_id' => 'required|exists:cities,id',
         ]);
 

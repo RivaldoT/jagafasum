@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', ['Antri', 'Dikerjakan', 'Outsource', 'Selesai', 'Tidak Terselesaikan']);
             $table->timestamps();
         });
