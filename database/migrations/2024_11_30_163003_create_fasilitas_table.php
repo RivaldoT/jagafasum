@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('manager');
+            $table->foreignId('dinas_id')->constrained('dinas')->onDelete('restrict');
             $table->enum('fund_source', ['APBN', 'APBD', 'Swasta']);
-            $table->point('location');
+            $table->double('latitude');
+            $table->double('longitude');
+            $table->string('luasan');
             $table->string('image');
             $table->enum('status', ['Baik', 'Rusak']);
-            $table->foreignId('dinas_id')->constrained('dinas')->onDelete('restrict');
             $table->timestamps();
         });
     }

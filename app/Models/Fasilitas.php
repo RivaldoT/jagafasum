@@ -12,11 +12,15 @@ class Fasilitas extends Model
     protected $fillable = [
         'name',
         'description',
-        'manager',
         'fund_source',
-        'location',
+        'longitude',
+        'latitude',
         'image',
-        'status'
+        'status',
+        'latitude',
+        'longitude',
+        'dinas_id',
+        'luasan'
     ];
 
     // Define the many-to-many relationship with Report
