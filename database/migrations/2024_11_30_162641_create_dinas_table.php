@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('dinas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['Pimpinan', 'Staff', 'Warga']);
-            $table->string('address')->nullable();
             $table->foreignId('city_id')->constrained('cities')->onDelete('restrict');
-            $table->foreignId('dinas_id')->nullable()->constrained('dinas')->onDelete('restrict');
-            $table->timestamps();
+            $table->string('address');
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('dinas');
     }
 };

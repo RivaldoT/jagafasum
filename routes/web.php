@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\DinasController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\ReportController;
 use App\Models\City;
@@ -21,6 +22,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/dinas', DinasController::class)->parameters([
+    // Menghindari Pemangkasan Plural 's'
+    'dinas' => 'dinas'
+]);
+
 
 Route::resource('/categories', CategoryController::class);
 Route::resource('/cities', CityController::class);
