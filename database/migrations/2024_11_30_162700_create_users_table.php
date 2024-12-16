@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['Pimpinan', 'Staff', 'Warga']);
-            $table->string('address')->nullable();
+            $table->text('address');
             $table->foreignId('city_id')->constrained('cities')->onDelete('restrict');
             $table->foreignId('dinas_id')->nullable()->constrained('dinas')->onDelete('restrict');
             $table->timestamps();

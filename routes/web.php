@@ -20,14 +20,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::resource('/dinas', DinasController::class)->parameters([
     // Menghindari Pemangkasan Plural 's'
     'dinas' => 'dinas'
 ]);
-
 
 Route::resource('/categories', CategoryController::class);
 Route::resource('/cities', CityController::class);

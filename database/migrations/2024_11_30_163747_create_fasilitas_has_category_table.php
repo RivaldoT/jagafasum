@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('fasilitas_has_category', function (Blueprint $table) {
             $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('restrict');
-            $table->foreignId('categories_id')->constrained('categories')->onDelete('restrict');
-            $table->primary(['fasilitas_id', 'categories_id']);
+            $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
+            $table->primary(['fasilitas_id', 'category_id']);
         });
     }
 
