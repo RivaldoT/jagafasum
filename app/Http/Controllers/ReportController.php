@@ -12,7 +12,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        $laporans = Report::with(['user', 'fasilitas'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('reports.index', compact('laporans'));
     }
 
     /**
@@ -44,7 +47,7 @@ class ReportController extends Controller
      */
     public function edit(Report $report)
     {
-        //
+        return view('reports.edit', compact('report'));
     }
 
     /**
