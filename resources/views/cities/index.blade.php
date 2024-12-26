@@ -15,13 +15,22 @@
 <body>
     <div class="container-fluid py-4">
         <div class="card card-custom shadow-lg border-0">
-            <div class="card-header bg-gradient-success text-white d-flex justify-content-between align-items-center py-3">
-                <h2 class="card-title mb-0">
-                    <i class="fas fa-city me-2"></i>Cities Management
-                </h2>
-                <a href="{{ route('cities.create') }}" class="btn btn-outline-light">
-                    <i class="fas fa-plus-circle me-2"></i>Add New City
-                </a>
+            <div
+                class="card-header bg-gradient-success text-white d-flex justify-content-between align-items-center py-3">
+                <div class="d-flex align-items-center">
+                    <button onclick="goToDashboard()" class="btn btn-outline-light me-3">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+
+                    <h2 class="card-title mb-0">
+                        <i class="fas fa-city me-2"></i>Cities Management
+                    </h2>
+                </div>
+                @can('patch-city-permission', Auth::user())
+                    <a href="{{ route('cities.create') }}" class="btn btn-outline-light">
+                        <i class="fas fa-plus-circle me-2"></i>Tambah Cities
+                    </a>
+                @endcan
             </div>
             <div class="card-body p-4">
                 <div class="table-responsive">
@@ -32,31 +41,43 @@
                                 <th width="20%">Name</th>
                                 <th width="20%">Province</th>
                                 <th width="20%">City</th>
-                                <th width="20%">Actions</th>
+                                @if (Gate::check('patch-city-permission', Auth::user()) || Gate::check('delete-city-permission', Auth::user()))
+                                    <th width="20%">Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($cities as $city)
-                            <tr>
-                                <td class="text-center">{{ $city->id }}</td>
-                                <td>{{ $city->name }}</td>
-                                <td>{{ $city->province }}</td>
-                                <td>{{ $city->city }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="{{ route('cities.edit', $city->id) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('cities.destroy', $city->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="text-center">{{ $city->id }}</td>
+                                    <td>{{ $city->name }}</td>
+                                    <td>{{ $city->province }}</td>
+                                    <td>{{ $city->city }}</td>
+                                    @if (Gate::check('patch-city-permission', Auth::user()) || Gate::check('delete-city-permission', Auth::user()))
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                @can('patch-city-permission', Auth::user())
+                                                    <a href="{{ route('cities.edit', $city->id) }}"
+                                                        class="btn btn-sm btn-warning">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                @endcan
+
+                                                @can('delete-city-permission', Auth::user())
+                                                    <form action="{{ route('cities.destroy', $city->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Are you sure?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -72,7 +93,7 @@
         }
 
         .bg-gradient-success {
-            background: linear-gradient(45deg, #1cc88a 0%, #13855f 100%);
+            background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
         }
 
         .table-hover tbody tr:hover {
@@ -83,6 +104,11 @@
 
     <!-- Bootstrap 5 JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function goToDashboard() {
+            window.location.href = '/';
+        }
+    </script>
 </body>
 
 </html>
