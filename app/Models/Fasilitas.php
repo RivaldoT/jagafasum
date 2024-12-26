@@ -23,18 +23,18 @@ class Fasilitas extends Model
         'luasan'
     ];
 
-    // Define the many-to-many relationship with Report
     public function reports()
     {
         return $this->belongsToMany(Report::class, 'report_fasilitas', 'fasilitas_id', 'report_id')
-            ->withPivot('report_id', 'fasilitas_id');  // Pivot keys
+            ->withPivot('report_id', 'fasilitas_id');
     }
-    // Define the many-to-many relationship with Kategori
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'fasilitas_has_category', 'fasilitas_id', 'category_id')
-            ->withPivot('fasilitas_id', 'category_id'); // Pivot keys
+            ->withPivot('fasilitas_id', 'category_id');
     }
+
     public function dinas()
     {
         return $this->belongsTo(Dinas::class, 'dinas_id');
