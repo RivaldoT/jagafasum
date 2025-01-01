@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="back-link">
-                        <a href="{{ route('cities.index') }}" class="text-muted">
+                        <a href="{{ route('dinas.index') }}" class="text-muted">
                             <small>Back to Dinas List</small>
                         </a>
                     </div>

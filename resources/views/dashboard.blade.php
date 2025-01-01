@@ -147,7 +147,7 @@
         }
 
         .fas.fa-city {
-            color: #17c2f5;
+            color: #b422be;
         }
 
         .fas.fa-file-alt {

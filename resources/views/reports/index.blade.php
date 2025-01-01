@@ -41,7 +41,7 @@
                         <i class="fas fa-list me-2"></i>Daftar Laporan
                     </h2>
                 </div>
-                @can('patch-report-permission', Auth::user())
+                @can('create-report-permission', Auth::user())
                     <a href="{{ route('report.create') }}" class="btn btn-outline-light">
                         <i class="fas fa-plus-circle me-2"></i>Tambah Laporan
                     </a>

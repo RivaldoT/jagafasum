@@ -93,7 +93,7 @@
         }
 
         .bg-gradient-success {
-            background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+            background: linear-gradient(45deg, #d14edfc5 0%, #b422be 100%);
         }
 
         .table-hover tbody tr:hover {

@@ -25,7 +25,7 @@ class Report extends Model
     public function fasilitas()
     {
         return $this->belongsToMany(Fasilitas::class, 'report_fasilitas', 'report_id', 'fasilitas_id')
-            ->withPivot('report_id', 'fasilitas_id');  // No additional fields, just the foreign keys
+            ->withPivot('report_id', 'fasilitas_id');
     }
 
     public function history()
