@@ -38,8 +38,8 @@
                         <thead class="table-dark">
                             <tr class="text-center">
                                 <th width="10%">#</th>
-                                <th width="20%">Name</th>
                                 <th width="20%">Province</th>
+                                <th width="20%">Name</th>
                                 <th width="20%">City</th>
                                 @if (Gate::check('patch-city-permission', Auth::user()) || Gate::check('delete-city-permission', Auth::user()))
                                     <th width="20%">Actions</th>
@@ -50,8 +50,8 @@
                             @foreach ($cities as $city)
                                 <tr>
                                     <td class="text-center">{{ $city->id }}</td>
-                                    <td>{{ $city->name }}</td>
                                     <td>{{ $city->province }}</td>
+                                    <td>{{ $city->name }}</td>
                                     <td>{{ $city->city }}</td>
                                     @if (Gate::check('patch-city-permission', Auth::user()) || Gate::check('delete-city-permission', Auth::user()))
                                         <td class="text-center">

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('city_id')->constrained('cities')->onDelete('restrict');
             $table->foreignId('dinas_id')->nullable()->constrained('dinas')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

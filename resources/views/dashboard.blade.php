@@ -54,9 +54,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row justify-content-center">
                 <!-- Cities Card -->
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm border-0 rounded">
@@ -77,6 +75,30 @@
                             <h5 class="card-title">Reports</h5>
                             <p class="card-text">Manage reports and feedback.</p>
                             <a href="{{ route('report.index') }}" class="btn btn-danger">View Reports</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dinas Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 rounded">
+                        <div class="card-body text-center">
+                            <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Dinas</h5>
+                            <p class="card-text">Manage government offices and related data.</p>
+                            <a href="{{ route('dinas.index') }}" class="btn btn-primary">View Dinas</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Card -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 rounded">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-3x text-secondary mb-3"></i>
+                            <h5 class="card-title">Users</h5>
+                            <p class="card-text">Manage user accounts and roles.</p>
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary">View Users</a>
                         </div>
                     </div>
                 </div>

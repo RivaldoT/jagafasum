@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\DinasController;
-use App\Http\Controllers\FasilitasController;
-use App\Http\Controllers\ReportController;
-use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DinasController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FasilitasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +28,10 @@ Route::middleware(['auth'])->group(function () {
         // Menghindari Pemangkasan Plural 's'
         'dinas' => 'dinas'
     ]);
+    Route::resource('/users', UserController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/cities', CityController::class);
     Route::resource('/fasilitas', FasilitasController::class);
     Route::resource('/report', ReportController::class);
 });
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
