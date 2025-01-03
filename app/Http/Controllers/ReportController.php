@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\User;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
@@ -13,12 +14,53 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $laporans = Report::with(['user', 'fasilitas'])
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('reports.index', compact('laporans'));
+
+        $month = $request->input('month', Carbon::now()->month);
+        $damagedFacilities = Fasilitas::where('status', 'Rusak')
+            ->whereMonth('updated_at', $month)
+            ->get();
+
+        //belom baca soal 4 poin 3 gk ngerti
+        $unresolved7Days = Report::where('status', '!=', 'Selesai')
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(7)->startOfDay(),
+                Carbon::now()->endOfDay()
+            ])
+            ->get();
+
+        $unresolved14Days = Report::where('status', '!=', 'Selesai')
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(14)->startOfDay(),
+                Carbon::now()->endOfDay()
+            ])
+            ->get();
+
+        $unresolved30Days = Report::where('status', '!=', 'Selesai')
+            ->whereBetween('created_at', [
+                Carbon::now()->subDays(30)->startOfDay(),
+                Carbon::now()->endOfDay()
+            ])
+            ->get();
+
+        $topReporters = User::withCount('reports')
+            ->orderBy('reports_count', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('reports.index', compact(
+            'laporans',
+            'damagedFacilities',
+            'month',
+            'unresolved7Days',
+            'unresolved14Days',
+            'unresolved30Days',
+            'topReporters'
+        ));
     }
 
     /**

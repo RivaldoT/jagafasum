@@ -26,7 +26,7 @@ class ReportPolicy
 
     public function patch(User $user)
     {
-        return ($user->role == "Warga")
+        return ($user->role == "Staff")
             ? Response::allow()
             : Response::deny("Hanya Warga yang dapat mengedit laporan");
     }
