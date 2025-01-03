@@ -93,13 +93,16 @@ class ReportController extends Controller
         $request->validate([
             'deskripsi' => 'required|string',
             'fasilitas' => 'required|array|min:1',
+            'status' => 'required|string|in:Antri,Dikerjakan,Selesai,Tidak terselesaikan',
         ]);
 
         $report->update([
             'description' => $request->deskripsi,
+            'status' => $request->status,
         ]);
 
         $report->fasilitas()->sync($request->fasilitas);
+
         return redirect()->route('report.index')->with('success', 'Laporan berhasil diperbarui!');
     }
 
