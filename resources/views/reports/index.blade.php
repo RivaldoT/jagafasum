@@ -67,7 +67,7 @@
                         <tbody>
                             @forelse($laporans as $laporan)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $laporan->id }}</td>
                                     <td>{{ $laporan->user->name ?? 'User tidak ditemukan' }}</td>
                                     <td>
                                         @forelse($laporan->fasilitas as $fasilitas)

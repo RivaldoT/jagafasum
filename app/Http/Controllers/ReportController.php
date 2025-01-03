@@ -100,7 +100,7 @@ class ReportController extends Controller
         ]);
 
         $report->fasilitas()->sync($request->fasilitas);
-        return redirect()->route('laporan.index')->with('success', 'Laporan berhasil diperbarui!');
+        return redirect()->route('report.index')->with('success', 'Laporan berhasil diperbarui!');
     }
 
 
@@ -110,6 +110,6 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         $report->delete();
-        return redirect()->route('reports.index')->with('success', 'Report deleted successfully!');
+        return redirect()->route('report.index')->with('success', 'Report deleted successfully!');
     }
 }
