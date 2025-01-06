@@ -268,7 +268,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted">Tidak ada laporan tersedia.</td>
+                                    <td colspan="6" class="text-center text-muted">Tidak ada laporan tersedia.</td>
                                 </tr>
                             @endforelse
                         </tbody>
