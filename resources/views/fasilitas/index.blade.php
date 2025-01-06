@@ -101,7 +101,7 @@
                             @foreach ($fasilitas as $fasilitasItem)
                                 <tr>
                                     <td class="text-center">{{ $fasilitasItem->id }}</td>
-                                    <td><img src="{{ asset($fasilitasItem->image) }}" alt="{{ $fasilitasItem->image }}">
+                                    <td><img width="100" src="{{ asset('images/'.$fasilitasItem->image) }}" alt="{{ $fasilitasItem->image }}">
                                     </td>
                                     <td>{{ $fasilitasItem->name }}</td>
                                     <td>

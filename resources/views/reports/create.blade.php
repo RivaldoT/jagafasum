@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="fasilitas" class="form-label required">Fasilitas</label>
+                        <label for="fasilitas" class="form-label required">Fasilitas di kota anda</label>
                         <select name="fasilitas[]" id="fasilitas" class="form-select" multiple required>
                             @foreach ($fasilitas as $fas)
                                 <option value="{{ $fas->id }}">{{ $fas->name }}</option>

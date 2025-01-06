@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Models\Fasilitas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
@@ -21,9 +23,7 @@ use App\Http\Controllers\FasilitasController;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
+    Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/dinas', DinasController::class)->parameters([
         // Menghindari Pemangkasan Plural 's'
         'dinas' => 'dinas'

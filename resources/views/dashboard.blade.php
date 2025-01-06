@@ -2,21 +2,22 @@
 @section('title', 'Dashboard')
 @section('head')
 
-    <head>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/style.css">
-    </head>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
 @endsection
 
 @section('content')
 
-    <body>
-        <!-- Dashboard Container -->
+<body>
+    @if (Auth::user()->role !== 'Warga')
+        <!-- Dashboard Backoffice -->
         <div class="container-fluid mt-5">
             <div class="row">
                 <div class="col-12 text-center mb-4">
@@ -104,76 +105,104 @@
                 </div>
             </div>
         </div>
-    </body>
+    @else
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h1>Welcome, {{ Auth::user()->name }}</h1>
+                    <p class="lead">Explore Public Facilities</p>
+                </div>
+            </div>
 
-    <style>
-        .card-body {
-            padding: 3rem;
-            background-color: #343a40;
-            border-radius: 12px;
-        }
+            <div class="row mb-4 justify-content-center">
+                <div class="col-auto">
+                    <a href="{{ route('report.index') }}" class="btn btn-primary">
+                        <i class="fas fa-list me-2"></i>Laporan Saya
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="{{ route('report.create') }}" class="btn btn-success">
+                        <i class="fas fa-plus-circle me-2"></i>Tambah Laporan
+                    </a>
+                </div>
+            </div>
 
-        .card-title {
-            font-weight: bold;
-            color: aliceblue;
-            font-size: 1.2rem;
-        }
 
-        .card-text {
-            font-size: 1rem;
-            color: blanchedalmond;
-        }
+            <div class="row">
+                @foreach ($fasilitas as $fasilitasItem)
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-0 h-100">
+                            <img src="{{ asset('images/' . $fasilitasItem->image) }}" class="card-img-top rounded mb-2"
+                                alt="{{ $fasilitasItem->name }}" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">{{ $fasilitasItem->name }}</h5>
+                                <p class="card-text">
+                                    <strong>Kategori:</strong>
+                                    @foreach ($fasilitasItem->categories as $category)
+                                        <span class="badge bg-info text-dark">{{ $category->name }}</span>
+                                    @endforeach
+                                </p>
+                                <p class="card-text"><strong>Luasan:</strong> {{ $fasilitasItem->luasan }}</p>
+                                <p class="card-text"><strong>Kondisi:</strong>
+                                    <span class="badge {{ $fasilitasItem->status == 'Baik' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $fasilitasItem->status }}
+                                    </span>
+                                </p>
+                                <p class="card-text"><strong>Pengelola:</strong> {{ $fasilitasItem->dinas->name }}</p>
+                                <p class="card-text"><strong>Lokasi:</strong>
+                                    <a href="https://maps.google.com/?q={{ $fasilitasItem->latitude }},{{ $fasilitasItem->longitude }}"
+                                        target="_blank">
+                                        Lihat di Google Maps
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
-        .btn {
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+</body>
 
-        .btn:hover {
-            transform: scale(1.05);
-            transition: all 0.3s ease-in-out;
-        }
+<style>
+    .card-body {
+        padding: 3rem;
+        background-color: #343a40;
+        border-radius: 12px;
+    }
 
-        .fas {
-            color: #007bff;
-        }
+    .card-title {
+        font-weight: bold;
+        color: aliceblue;
+        font-size: 1.2rem;
+    }
 
-        .fas.fa-tags {
-            color: #ffc107;
-        }
+    .card-text {
+        font-size: 1rem;
+        color: blanchedalmond;
+    }
 
-        .fas.fa-building {
-            color: #28a745;
-        }
+    .btn {
+        font-weight: 600;
+        text-transform: uppercase;
+    }
 
-        .fas.fa-city {
-            color: #b422be;
-        }
+    .btn:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease-in-out;
+    }
 
-        .fas.fa-file-alt {
-            color: #dc3545;
-        }
+    .fas {
+        color: #007bff;
+    }
 
-        .container-fluid {
-            padding-top: 50px;
-        }
+    .container-fluid {
+        padding-top: 50px;
+    }
 
-        .card.shadow-sm {
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .card-body {
-                padding: 2rem;
-            }
-
-            .card-title {
-                font-size: 1.1rem;
-            }
-
-            .card-text {
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    .navbar {
+        margin-bottom: 20px;
+    }
+</style>
 @endsection

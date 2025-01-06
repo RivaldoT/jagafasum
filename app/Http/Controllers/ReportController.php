@@ -16,9 +16,17 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $laporans = Report::with(['user', 'fasilitas'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if (auth()->user()->role === 'Warga') {
+            $laporans = Report::with(['user', 'fasilitas'])
+                ->where('user_id', auth()->id()) 
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            $laporans = Report::with(['user', 'fasilitas'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
 
         $month = $request->input('month', Carbon::now()->month);
         $damagedFacilities = Fasilitas::where('status', 'Rusak')
@@ -101,7 +109,7 @@ class ReportController extends Controller
 
         $report->fasilitas()->attach($request->fasilitas);
 
-        return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
+        return redirect()->route('report.index')->with('success', 'Laporan berhasil dikirim!');
     }
 
     /**
