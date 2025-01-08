@@ -24,6 +24,7 @@ use App\Http\Controllers\FasilitasController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/report/{id}/details', [ReportController::class, 'getReportDetails'])->name('report.details');
     Route::resource('/dinas', DinasController::class)->parameters([
         // Menghindari Pemangkasan Plural 's'
         'dinas' => 'dinas'

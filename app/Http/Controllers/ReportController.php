@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Report;
 use App\Models\Category;
 use App\Models\Fasilitas;
+use App\Models\HistoryReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -170,5 +171,32 @@ class ReportController extends Controller
     {
         $report->delete();
         return redirect()->route('report.index')->with('success', 'Report deleted successfully!');
+    }
+
+    public function getReportDetails(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:reports,id',
+        ]);
+
+        $historyReport = HistoryReport::with('user')
+            ->where('report_id', $request->id)
+            ->get();
+
+        if ($historyReport->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tidak ada riwayat untuk laporan ini.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'report_id' => $historyReport->id,
+                'updated_by' => $historyReport->user->name ?? 'Tidak diketahui',
+                'note' => $historyReport->note ?? 'Tidak ada catatan',
+            ],
+        ]);
     }
 }
