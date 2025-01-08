@@ -1,98 +1,105 @@
-@extends('layout')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Edit City')
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Edit City</title>
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                background-color: #f4f6f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+            }
 
-@section('content')
-    <h2>Edit City</h2>
+            .form-container {
+                background-color: white;
+                margin: 50px auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                width: 100%;
+                max-width: 500px;
+            }
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            margin: 0;
-            padding: 0;
-        }
+            .form-label {
+                font-weight: 600;
+                color: #495057;
+            }
 
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+            .form-control {
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
 
-        label {
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
+            .btn-primary {
+                border-radius: 8px;
+                padding: 10px 20px;
+                transition: all 0.3s ease;
+            }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+            .back-link {
+                margin-top: 15px;
+                text-align: center;
+            }
+        </style>
+    </head>
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    <body>
+        <div class="container">
+            <div class="form-container">
+                <h1 class="text-center mb-4">Edit City</h1>
+                <form action="{{ route('cities.update', $city->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-        .btn-secondary {
-            background-color: #6c757d;
-            margin-top: 10px;
-        }
+                    <div class="mb-3">
+                        <label for="province" class="form-label">Province</label>
+                        <input type="text" name="province" id="province" class="form-control"
+                            value="{{ $city->province }}" placeholder="Enter province name" required>
+                    </div>
 
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-    </style>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">City Name</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                            value="{{ $city->name }}" placeholder="Enter city name" required>
+                    </div>
 
-    <div class="container">
-        <form action="{{ route('cities.update', $city->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City Alias</label>
+                        <input type="text" name="city" id="city" class="form-control"
+                            value="{{ $city->city }}" placeholder="Enter city alias" required>
+                    </div>
 
-            <div class="mb-3">
-                <label for="province" class="form-label">Province:</label>
-                <input type="text" name="province" id="province" class="form-control" value="{{ $city->province }}"
-                    required>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Update City</button>
+                    </div>
+
+                    <div class="back-link">
+                        <a href="{{ route('cities.index') }}" class="text-muted">
+                            <small>Back to Cities List</small>
+                        </a>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="name" class="form-label">City Name:</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{ $city->name }}"
-                    required>
-            </div>
+        <!-- Bootstrap 5 JS (optional) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 
-            <div class="mb-3">
-                <label for="city" class="form-label">City:</label>
-                <input type="text" name="city" id="city" class="form-control" value="{{ $city->city }}"
-                    required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Update</button>
-            <a href="{{ route('cities.index') }}" class="btn btn-secondary w-100">Cancel</a>
-        </form>
-    </div>
-@endsection
+</html>
