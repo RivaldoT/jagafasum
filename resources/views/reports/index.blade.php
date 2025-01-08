@@ -176,7 +176,6 @@
                                 </select>
                             </div>
 
-                            <!-- Fasilitas Rusak Berdasarkan Kategori -->
                             @if ($categories->isEmpty())
                                 <p class="text-muted">Tidak ada data fasilitas rusak untuk bulan ini.</p>
                             @else
@@ -222,7 +221,6 @@
                             @endif
                         </div>
 
-                        <!-- Unresolved Reports -->
                         <div class="tab-pane fade" id="unresolved-reports" role="tabpanel">
                             <h4 class="mb-3">Laporan Belum Selesai</h4>
                             <p><strong>7 Hari Terakhir:</strong></p>
@@ -245,7 +243,6 @@
                             </ul>
                         </div>
 
-                        <!-- Top Reporters -->
                         <div class="tab-pane fade" id="top-reporters" role="tabpanel">
                             <h4 class="mb-3">5 Warga Paling Aktif Melapor</h4>
                             <ul>
@@ -296,14 +293,16 @@
                                     <td>{{ $laporan->id }}</td>
                                     <td>{{ Str::limit($laporan->description, 50, '...') }}</td>
                                     <td>
-                                        <span
-                                            class="badge
-                                                        @if ($laporan->status == 'Selesai') bg-success
-                                                        @elseif($laporan->status == 'Dikerjakan') bg-primary
-                                                        @elseif($laporan->status == 'Tidak Terselesaikan') bg-danger
-                                                        @else bg-warning @endif">
+                                        <button
+                                            class="btn btn-sm text-white
+                                                    @if ($laporan->status == 'Selesai') bg-success
+                                                    @elseif($laporan->status == 'Dikerjakan') bg-primary
+                                                    @elseif($laporan->status == 'Tidak Terselesaikan') bg-danger
+                                                    @else bg-warning @endif"
+                                            data-bs-toggle="modal" data-bs-target="#reportDetailsModal"
+                                            onclick="showReportDetails('{{ $laporan->id }}', '{{ $laporan->updated_by }}', '{{ $laporan->note }}')">
                                             {{ $laporan->status }}
-                                        </span>
+                                        </button>
                                     </td>
                                     <td>{{ $laporan->created_at }}</td>
                                     <td>{{ $laporan->updated_at }}</td>
@@ -339,7 +338,6 @@
         </div>
     </div>
 
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -358,9 +356,10 @@
             fetch(`/report/${reportId}/details`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.status === 'success') {
+                    let historyContent = '';
+
+                    if (data.status === 'success' && data.data.length > 0) {
                         const reportData = data.data;
-                        let historyContent = '';
                         reportData.forEach(report => {
                             historyContent += `
                         <p><strong>Report ID:</strong> ${report.report_id}</p>
@@ -369,17 +368,28 @@
                         <hr>
                     `;
                         });
-                        document.getElementById('reportHistory').innerHTML = historyContent;
-                        new bootstrap.Modal(document.getElementById('reportDetailsModal')).show();
                     } else {
-                        alert(data.message || 'Terjadi kesalahan.');
+                        // Fallback content for no data
+                        historyContent = `
+                    <p><strong>Report ID:</strong> ${reportId}</p>
+                    <p><strong>Updated By:</strong> Tidak diketahui</p>
+                    <p><strong>Note:</strong> Tidak ada catatan</p>
+                `;
                     }
+
+                    document.getElementById('reportHistory').innerHTML = historyContent;
+                    new bootstrap.Modal(document.getElementById('reportDetailsModal')).show();
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Tidak dapat mengambil data laporan.');
                 });
         }
+
+        var modal = document.getElementById('reportDetailsModal');
+        modal.addEventListener('hidden.bs.modal', function() {
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+        });
     </script>
 </body>
 

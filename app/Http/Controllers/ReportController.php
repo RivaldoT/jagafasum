@@ -152,11 +152,19 @@ class ReportController extends Controller
             'deskripsi' => 'required|string',
             'fasilitas' => 'required|array|min:1',
             'status' => 'required|string|in:Antri,Dikerjakan,Selesai,Tidak terselesaikan',
+            'catatan' => 'required|string',
         ]);
 
         $report->update([
             'description' => $request->deskripsi,
             'status' => $request->status,
+        ]);
+
+        HistoryReport::create([
+            'report_id' => $report->id,
+            'updated_by' => auth()->id(),
+            'status' => $request->status,
+            'note' => $request->catatan,
         ]);
 
         $report->fasilitas()->sync($request->fasilitas);
@@ -176,7 +184,6 @@ class ReportController extends Controller
 
     public function getReportDetails(Request $request, $id)
     {
-        // Validasi ID dari route
         $validatedData = Validator::make(
             ['id' => $id],
             ['id' => 'required|integer|exists:reports,id']
@@ -189,24 +196,15 @@ class ReportController extends Controller
             ], 400);
         }
 
-        // Ambil data riwayat laporan
         $historyReport = HistoryReport::with('user')
             ->where('report_id', $id)
             ->get();
 
-        if ($historyReport->isEmpty()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Tidak ada riwayat untuk laporan ini.',
-            ], 404);
-        }
-
-        // Format data untuk JSON response
         $formattedData = $historyReport->map(function ($report) {
             return [
                 'report_id' => $report->report_id,
-                'updated_by' => $report->user->name ?? 'Tidak diketahui',
-                'note' => $report->note ?? 'Tidak ada catatan',
+                'updated_by' => $report->user->name,
+                'note' => $report->note,
             ];
         });
 
