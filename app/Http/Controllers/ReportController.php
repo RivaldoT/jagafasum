@@ -40,7 +40,6 @@ class ReportController extends Controller
             ->whereMonth('updated_at', $month)
             ->get();
 
-        //belom baca soal 4 poin 3 gk ngerti
         $unresolved7Days = Report::where('status', '!=', 'Selesai')
             ->whereBetween('created_at', [
                 Carbon::now()->subDays(7)->startOfDay(),
@@ -116,6 +115,7 @@ class ReportController extends Controller
         ]);
 
         $report->fasilitas()->attach($request->fasilitas);
+        Fasilitas::whereIn('id', $request->fasilitas)->update(['status' => 'Rusak']);
 
         return redirect()->route('report.index')->with('success', 'Laporan berhasil dikirim!');
     }
@@ -168,6 +168,10 @@ class ReportController extends Controller
         ]);
 
         $report->fasilitas()->sync($request->fasilitas);
+
+        if ($request->status === 'Selesai') {
+            Fasilitas::whereIn('id', $request->fasilitas)->update(['status' => 'Baik']);
+        }
 
         return redirect()->route('report.index')->with('success', 'Laporan berhasil diperbarui!');
     }
