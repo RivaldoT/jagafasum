@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Report;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Report;
+use App\Models\Category;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
@@ -18,7 +19,7 @@ class ReportController extends Controller
     {
         if (auth()->user()->role === 'Warga') {
             $laporans = Report::with(['user', 'fasilitas'])
-                ->where('user_id', auth()->id()) 
+                ->where('user_id', auth()->id())
                 ->orderBy('created_at', 'desc')
                 ->get();
         } else {
@@ -29,6 +30,10 @@ class ReportController extends Controller
 
 
         $month = $request->input('month', Carbon::now()->month);
+        $categories = Category::with(['fasilitas' => function ($query) use ($month) {
+            $query->where('status', 'Rusak')
+                ->whereMonth('updated_at', $month);
+        }])->get();
         $damagedFacilities = Fasilitas::where('status', 'Rusak')
             ->whereMonth('updated_at', $month)
             ->get();
@@ -62,6 +67,7 @@ class ReportController extends Controller
 
         return view('reports.index', compact(
             'laporans',
+            'categories',
             'damagedFacilities',
             'month',
             'unresolved7Days',
