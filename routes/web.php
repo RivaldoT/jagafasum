@@ -23,13 +23,15 @@ use App\Http\Controllers\FasilitasController;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/', [DashboardController::class, 'index'])->name('home-page');
     Route::get('/report/{id}/details', [ReportController::class, 'getReportDetails'])->name('report.details');
     Route::resource('/dinas', DinasController::class)->parameters([
         // Menghindari Pemangkasan Plural 's'
         'dinas' => 'dinas'
     ]);
     Route::resource('/users', UserController::class);
+    Route::get('/edit-profile', [UserController::class, 'editProfile'])->name('edit-profile');
+    Route::put('/update-profile', [UserController::class, 'updateProfile'])->name('update-profile');
     Route::resource('/categories', CategoryController::class);
     Route::resource('/cities', CityController::class);
     Route::resource('/fasilitas', FasilitasController::class);
