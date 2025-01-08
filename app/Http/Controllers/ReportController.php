@@ -7,9 +7,10 @@ use App\Models\User;
 use App\Models\Report;
 use App\Models\Category;
 use App\Models\Fasilitas;
-use App\Models\HistoryReport;
 use Illuminate\Http\Request;
+use App\Models\HistoryReport;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ReportController extends Controller
 {
@@ -173,14 +174,24 @@ class ReportController extends Controller
         return redirect()->route('report.index')->with('success', 'Report deleted successfully!');
     }
 
-    public function getReportDetails(Request $request)
+    public function getReportDetails(Request $request, $id)
     {
-        $request->validate([
-            'id' => 'required|integer|exists:reports,id',
-        ]);
+        // Validasi ID dari route
+        $validatedData = Validator::make(
+            ['id' => $id],
+            ['id' => 'required|integer|exists:reports,id']
+        );
 
+        if ($validatedData->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'ID tidak valid atau laporan tidak ditemukan.',
+            ], 400);
+        }
+
+        // Ambil data riwayat laporan
         $historyReport = HistoryReport::with('user')
-            ->where('report_id', $request->id)
+            ->where('report_id', $id)
             ->get();
 
         if ($historyReport->isEmpty()) {
@@ -190,13 +201,18 @@ class ReportController extends Controller
             ], 404);
         }
 
+        // Format data untuk JSON response
+        $formattedData = $historyReport->map(function ($report) {
+            return [
+                'report_id' => $report->report_id,
+                'updated_by' => $report->user->name ?? 'Tidak diketahui',
+                'note' => $report->note ?? 'Tidak ada catatan',
+            ];
+        });
+
         return response()->json([
             'status' => 'success',
-            'data' => [
-                'report_id' => $historyReport->id,
-                'updated_by' => $historyReport->user->name ?? 'Tidak diketahui',
-                'note' => $historyReport->note ?? 'Tidak ada catatan',
-            ],
+            'data' => $formattedData,
         ]);
     }
 }
