@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Category</title>
+    <title>Edit City</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -62,39 +62,51 @@
 <body>
     <div class="container">
         <div class="form-container">
-            <h1 class="text-center mb-4">Edit Category</h1>
-            <form action="{{ route('categories.update', $category->id) }}" method="POST">
+            <h1 class="text-center mb-4">Edit City</h1>
+            <form action="{{ route('cities.update', $city->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+
                 <div class="mb-3">
-                    <label for="name" class="form-label">Category Name</label>
+                    <label for="province" class="form-label">Province</label>
                     <input type="text"
-                        name="name"
-                        id="name"
+                        name="province"
+                        id="province"
                         class="form-control"
-                        value="{{ $category->name }}"
-                        placeholder="Enter category name"
+                        value="{{ $city->province }}"
+                        placeholder="Enter province name"
                         required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea
-                        name="description"
-                        id="description"
+                    <label for="name" class="form-label">City Name</label>
+                    <input type="text"
+                        name="name"
+                        id="name"
                         class="form-control"
-                        placeholder="Enter category description"
-                        rows="4"
-                        required>{{ $category->description }}</textarea>
+                        value="{{ $city->name }}"
+                        placeholder="Enter city name"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="city" class="form-label">City Alias</label>
+                    <input type="text"
+                        name="city"
+                        id="city"
+                        class="form-control"
+                        value="{{ $city->city }}"
+                        placeholder="Enter city alias"
+                        required>
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Update Category</button>
+                    <button type="submit" class="btn btn-primary">Update City</button>
                 </div>
 
                 <div class="back-link">
-                    <a href="{{ route('categories.index') }}" class="text-muted">
-                        <small>Back to Categories List</small>
+                    <a href="{{ route('cities.index') }}" class="text-muted">
+                        <small>Back to Cities List</small>
                     </a>
                 </div>
             </form>
